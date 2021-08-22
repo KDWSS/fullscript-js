@@ -1,3 +1,5 @@
+[![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
+
 ## Description
 
 Fullscript.js is a JavaScript library that allows you to embed [Fullscript](https://fullscript.com/) features into your web application. In its current form, Fullscript.js cannot be used without the [Fullscript API](https://us.fullscript.com/docs/api/reference). Each embeddable feature requires attributes which can only be retrieved from the API.
