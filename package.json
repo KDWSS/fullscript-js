@@ -10,7 +10,8 @@
     "Andrew Markle <andrew.markle@fullscript.com>",
     "Alfred Pararajasingam <alfred.pararajasingam@fullscript.com>",
     "Theodore <theodore.ambiebarango@fullscript.com>",
-    "Jose Jr De La Paz <josejr.delapaz@fullscript.com>"
+    "Jose Jr De La Paz <josejr.delapaz@fullscript.com>",
+    "Aamir Dohadwala<aamir.dohadwala@fullscript.com>"
   ],
   "license": "MIT",
   "main": "dist/index.js",
