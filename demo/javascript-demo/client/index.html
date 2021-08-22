@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="/fullscript-js.umd.min.js"></script>
+    <link rel="stylesheet" href="css/main.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet" />
+    <title>Fullscript.js demo</title>
+  </head>
+  <header class="app">
+    <h1>Fullscript.js Demo</h1>
+    <h4>This is a demo app using Fullscript.js with a script tag</h4>
+  </header>
+  <body onload="renderTreatmentPlanIFrame()">
+    <div class="app">
+      <div style="width: 100vw; height: 100vh;" id="treatment-plan-iframe" />
+    </div>
+  </body>
+
+  <script>
+    function renderTreatmentPlanIFrame() {
+      const client = Fullscript({
+        publicKey: "asd",
+        env: "ca-snd",
+      });
+
+      const feature = client.create("treatmentPlan", {
+        patient: {
+          id: "hellooo",
+        },
+        secretToken: "randomToken",
+      });
+
+      feature.mount("treatment-plan-iframe");
+      feature.on("treatmentPlan.activated", mockCallback);
+      feature.on("patient.selected", mockCallback);
+    }
+
+    function mockCallback(data) {
+      console.log(data);
+    }
+  </script>
+</html>

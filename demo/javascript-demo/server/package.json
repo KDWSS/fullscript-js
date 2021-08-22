@@ -1,0 +1,20 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "Server for serving the javascript demo page",
+  "main": "server.js",
+  "scripts": {
+    "test": "npm test",
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "author": "Team Bifrost @Fullscript",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "socket.io": "^2.3.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  }
+}
