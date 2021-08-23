@@ -25,10 +25,11 @@ jobs:
   Build:
     needs: [PrettierJS, Lint, Jest]
     runs-on: ubuntu-latest
-    container: node:14-stretch
+    container: node:12-stretch
     env:
       NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
     steps:
+      - run: add-apt-repository ppa:git-core/ppa -y && apt-get update && apt-get install git -y && git --version
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
