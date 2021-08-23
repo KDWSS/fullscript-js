@@ -29,7 +29,8 @@ jobs:
     env:
       NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
     steps:
-      - run: git clone https://github.com/Fullscript/fullscript-js.git && cd fullscript-js
+      - run: git clone https://github.com/Fullscript/fullscript-js.git
+      - run: cd fullscript-js
       - run: npm config set //registry.npmjs.org/:_authToken "$NPM_TOKEN"
       - run: yarn install --frozen-lockfile
       - run: yarn run build
