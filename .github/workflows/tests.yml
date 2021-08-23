@@ -22,3 +22,16 @@ jobs:
       - uses: actions/checkout@v2
       - run: yarn install
       - run: yarn run test
+  Build:
+    needs: [PrettierJS, Lint, Jest]
+    runs-on: ubuntu-latest
+    container: node:12-stretch
+    env:
+      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+    steps:
+      - uses: actions/checkout@v2
+      - run: npm config set //registry.npmjs.org/:_authToken "$NPM_TOKEN"
+      - run: yarn install --frozen-lockfile
+      - run: yarn run build
+      - run: yarn pack
+      - run: npx semantic-release --dry-run
