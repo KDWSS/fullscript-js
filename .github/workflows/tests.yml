@@ -25,7 +25,7 @@ jobs:
   Build:
     needs: [PrettierJS, Lint, Jest]
     runs-on: ubuntu-latest
-    container: node:12-stretch
+    container: node:14-stretch
     env:
       NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
     steps:
