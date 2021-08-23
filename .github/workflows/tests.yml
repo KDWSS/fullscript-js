@@ -2,6 +2,7 @@ name: tests
 on: [push]
 jobs:
   lint:
+    runs-on: ubuntu-latest
     container: node:12-stretch
     steps:
       - uses: actions/checkout@v2
