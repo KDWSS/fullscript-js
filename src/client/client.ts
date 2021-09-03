@@ -7,7 +7,7 @@ type Create = <F extends FeatureType>(feature: F, options: FeatureOptions<F>) =>
 interface Client {
   create: Create;
 }
-
+// TODO: Just adding comment in here
 const createClient = (options: FullscriptOptions, dispatcher: Dispatcher): Client => {
   const handleCreateFeature: Create = (featureType, featureOptions): Feature => {
     return getFeature(featureType, featureOptions, options, dispatcher);
