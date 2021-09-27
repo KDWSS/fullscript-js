@@ -1,9 +1,11 @@
+import { FullscriptOptions } from "src/fullscript";
 import { createDispatcher, Dispatcher } from "../dispatcher";
 
 import { initializeMessageListener } from "./messageListener";
 
 describe("initializeMessageListener", () => {
   let dispatcher: Dispatcher;
+  const options: FullscriptOptions = { publicKey: "string", env: "us", testUrl: null };
 
   beforeEach(() => {
     dispatcher = createDispatcher();
@@ -13,7 +15,7 @@ describe("initializeMessageListener", () => {
     const addEventListener = jest.fn();
     window.addEventListener = addEventListener;
 
-    initializeMessageListener("us", dispatcher);
+    initializeMessageListener(options, dispatcher);
     expect(addEventListener).toHaveBeenCalled();
   });
 
@@ -24,7 +26,7 @@ describe("initializeMessageListener", () => {
     });
     window.addEventListener = addEventListener;
     dispatcher.dispatch = jest.fn();
-    initializeMessageListener("us", dispatcher);
+    initializeMessageListener(options, dispatcher);
 
     const mockEvent = {
       origin: "https://us.fullscript.com",
@@ -45,7 +47,7 @@ describe("initializeMessageListener", () => {
     });
     window.addEventListener = addEventListener;
     dispatcher.dispatch = jest.fn();
-    initializeMessageListener("us", dispatcher);
+    initializeMessageListener(options, dispatcher);
 
     const mockEvent = {
       origin: "https://malicious.com",
@@ -65,7 +67,7 @@ describe("initializeMessageListener", () => {
       mockCallback = callback;
     });
     window.addEventListener = addEventListener;
-    initializeMessageListener("us", dispatcher);
+    initializeMessageListener(options, dispatcher);
 
     const mockEvent = {
       origin: "https://us.fullscript.com",

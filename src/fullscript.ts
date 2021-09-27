@@ -13,8 +13,13 @@ const FULLSCRIPT_DOMAINS: { [key: string]: FullscriptDomain } = {
   dev: "http://localhost:3000",
 };
 
-type FullscriptEnv = "us" | "ca" | "us-snd" | "ca-snd" | "dev";
-type FullscriptOptions = { publicKey: string; env: FullscriptEnv };
+const getDomain = (options: FullscriptOptions) => {
+  if (options.env === "dev") return options.testUrl || FULLSCRIPT_DOMAINS.dev;
+  return FULLSCRIPT_DOMAINS[options.env];
+};
 
-export { FULLSCRIPT_DOMAINS };
+type FullscriptEnv = "us" | "ca" | "us-snd" | "ca-snd" | "dev";
+type FullscriptOptions = { publicKey: string; env: FullscriptEnv; testUrl?: string };
+
+export { getDomain };
 export type { FullscriptEnv, FullscriptOptions, FullscriptDomain };

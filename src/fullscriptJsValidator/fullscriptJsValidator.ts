@@ -1,10 +1,10 @@
 import { EventType, EVENT_TYPES } from "../feature/eventType";
 import { FeatureType, FEATURE_TYPES } from "../feature/featureType";
-import { FULLSCRIPT_DOMAINS, FullscriptOptions } from "../fullscript";
+import { getDomain, FullscriptOptions } from "../fullscript";
 import { errorMessage } from "../staticMessages";
 
 export const validateFullscriptOptions = (options: FullscriptOptions): void => {
-  if (!FULLSCRIPT_DOMAINS[options.env]) {
+  if (!getDomain(options)) {
     throw new Error(errorMessage.invalidEnv);
   }
 };
