@@ -1,5 +1,5 @@
 import { getDomain } from "../fullscript";
-import type {} from "./";
+import type { FullscriptOptions } from "../fullscript";
 import { validateFeatureType } from "../fullscriptJsValidator";
 import { buildQueryString } from "../utils";
 
@@ -12,7 +12,7 @@ const getFeatureURL = <F extends FeatureType>(
   fullscriptOptions: FullscriptOptions,
   frameId: string
 ): string => {
-  const { publicKey, env } = fullscriptOptions;
+  const { publicKey } = fullscriptOptions;
   const queryString = buildQueryString({ ...featureOptions, publicKey, frameId });
   validateFeatureType(featureType);
 

@@ -14,7 +14,7 @@ const FULLSCRIPT_DOMAINS: { [key: string]: FullscriptDomain } = {
 };
 
 const getDomain = (options: FullscriptOptions) => {
-  if (options.env === "dev") return options.testUrl || FULLSCRIPT_DOMAINS.dev;
+  if (options.env) return options.testUrl;
   return FULLSCRIPT_DOMAINS[options.env];
 };
 
