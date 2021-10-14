@@ -15,6 +15,7 @@ type PatientOptions = {
   dateOfBirth?: string;
   gender?: "male" | "female" | "prefer not to say";
   biologicalSex?: "male" | "female" | "prefer not to say";
+  discount?: number;
 };
 type TreatmentPlanOptions = { patient?: PatientOptions; secretToken: string };
 
