@@ -156,7 +156,8 @@ The UMD version of the fullscript-js library is pre-packaged for consumption by 
 
 To run the demo, you need simply run the following from the root of the project:
 
-- `yarn demo:umd`
+- `yarn install` (from inside demo/javascript-demo/server)
+- `yarn demo:umd` (from the root of the project)
 
 ### Docs
 
