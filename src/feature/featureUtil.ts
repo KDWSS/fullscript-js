@@ -11,11 +11,12 @@ const getFeatureURL = <F extends FeatureType>(
   fullscriptOptions: FullscriptOptions,
   frameId: string
 ): string => {
-  const { publicKey, env } = fullscriptOptions;
+  const { publicKey, env, domain } = fullscriptOptions;
   const queryString = buildQueryString({ ...featureOptions, publicKey, frameId });
   validateFeatureType(featureType);
+  const fsDomain = domain ? domain : FULLSCRIPT_DOMAINS[env];
 
-  return `${FULLSCRIPT_DOMAINS[env]}/api/embeddable/session${FEATURE_PATHS[featureType]}${queryString}&target_origin=${window.location.origin}`;
+  return `${fsDomain}/api/embeddable/session${FEATURE_PATHS[featureType]}${queryString}&target_origin=${window.location.origin}`;
 };
 
 export { getFeatureURL };
