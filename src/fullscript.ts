@@ -14,7 +14,7 @@ const FULLSCRIPT_DOMAINS: { [key: string]: FullscriptDomain } = {
 };
 
 type FullscriptEnv = "us" | "ca" | "us-snd" | "ca-snd" | "dev";
-type FullscriptOptions = { publicKey: string; env: FullscriptEnv };
+type FullscriptOptions = { publicKey: string; env: FullscriptEnv; domain?: string };
 
 export { FULLSCRIPT_DOMAINS };
 export type { FullscriptEnv, FullscriptOptions, FullscriptDomain };

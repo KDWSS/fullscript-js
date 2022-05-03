@@ -36,4 +36,23 @@ describe("getFeatureUrl", () => {
       "https://us-snd.fullscript.io/api/embeddable/session/treatment_plans/new?patient[id]=patientId&secret_token=secretToken&public_key=publicKey&frame_id=uuid&target_origin=http://localhost"
     );
   });
+
+  it("returns proper custom url if domain is present", () => {
+    const customDomain = "https://staging.r.fullscript.io";
+    mockFullscriptOptions = {
+      ...mockFullscriptOptions,
+      domain: customDomain,
+    };
+
+    const url = getFeatureURL(
+      "treatmentPlan",
+      mockFeatureOptions,
+      mockFullscriptOptions,
+      mockFrameId
+    );
+
+    expect(url).toEqual(
+      `${customDomain}/api/embeddable/session/treatment_plans/new?patient[id]=patientId&secret_token=secretToken&public_key=publicKey&frame_id=uuid&target_origin=http://localhost`
+    );
+  });
 });
