@@ -1,8 +1,9 @@
-import { FullscriptEnv, FULLSCRIPT_DOMAINS } from "../../fullscript";
+import { FullscriptOptions, FULLSCRIPT_DOMAINS } from "../../fullscript";
 import { Dispatcher } from "../dispatcher";
 
-const initializeMessageListener = (env: FullscriptEnv, dispatcher: Dispatcher): void => {
-  const origin = FULLSCRIPT_DOMAINS[env];
+const initializeMessageListener = (options: FullscriptOptions, dispatcher: Dispatcher): void => {
+  const { domain, env } = options;
+  const origin = domain ?? FULLSCRIPT_DOMAINS[env];
 
   window.addEventListener("message", (e: MessageEvent) => {
     // !!!! Absolutely required for security purposes !!!!!

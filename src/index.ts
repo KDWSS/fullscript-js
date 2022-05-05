@@ -19,6 +19,6 @@ export type {
 export const Fullscript = (options: FullscriptOptions): Client => {
   validateFullscriptOptions(options);
   const eventDispatcher = createDispatcher();
-  initializeMessageListener(options.env, eventDispatcher);
+  initializeMessageListener(options, eventDispatcher);
   return createClient(options, eventDispatcher);
 };

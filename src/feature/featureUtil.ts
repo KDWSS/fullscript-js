@@ -14,7 +14,7 @@ const getFeatureURL = <F extends FeatureType>(
   const { publicKey, env, domain } = fullscriptOptions;
   const queryString = buildQueryString({ ...featureOptions, publicKey, frameId });
   validateFeatureType(featureType);
-  const fsDomain = domain ? domain : FULLSCRIPT_DOMAINS[env];
+  const fsDomain = domain?? FULLSCRIPT_DOMAINS[env];
 
   return `${fsDomain}/api/embeddable/session${FEATURE_PATHS[featureType]}${queryString}&target_origin=${window.location.origin}`;
 };

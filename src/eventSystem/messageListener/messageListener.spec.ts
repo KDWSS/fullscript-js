@@ -1,19 +1,25 @@
+import { FullscriptOptions } from "src/fullscript";
 import { createDispatcher, Dispatcher } from "../dispatcher";
 
 import { initializeMessageListener } from "./messageListener";
 
 describe("initializeMessageListener", () => {
   let dispatcher: Dispatcher;
+  let mockFullscriptOptions: FullscriptOptions;
 
   beforeEach(() => {
     dispatcher = createDispatcher();
+    mockFullscriptOptions = {
+      publicKey: "mockPublicKey",
+      env: "us",
+    };
   });
 
   it("registers a message event listener", () => {
     const addEventListener = jest.fn();
     window.addEventListener = addEventListener;
 
-    initializeMessageListener("us", dispatcher);
+    initializeMessageListener(mockFullscriptOptions, dispatcher);
     expect(addEventListener).toHaveBeenCalled();
   });
 
@@ -24,7 +30,7 @@ describe("initializeMessageListener", () => {
     });
     window.addEventListener = addEventListener;
     dispatcher.dispatch = jest.fn();
-    initializeMessageListener("us", dispatcher);
+    initializeMessageListener(mockFullscriptOptions, dispatcher);
 
     const mockEvent = {
       origin: "https://us.fullscript.com",
@@ -38,14 +44,39 @@ describe("initializeMessageListener", () => {
     expect(dispatcher.dispatch).toHaveBeenCalledWith(mockEvent.data.type, mockEvent.data.payload);
   });
 
-  it("does not dispatch events if message origin does not match fullscript-js origin", () => {
+  it("dispatches events if message origin and custom domain match", () => {
+    let mockCallback;
+    const optionsWithDomain = {
+      ...mockFullscriptOptions,
+      domain: "http://test.fullscript.com"
+    }
+    const addEventListener = jest.fn((_, callback) => {
+      mockCallback = callback;
+    });
+    window.addEventListener = addEventListener;
+    dispatcher.dispatch = jest.fn();
+    initializeMessageListener(optionsWithDomain, dispatcher);
+
+    const mockEvent = {
+      origin: "http://test.fullscript.com",
+      data: {
+        type: "treatmentPlan.activated",
+        payload: "treatmentPlanData",
+      },
+    };
+
+    mockCallback(new MessageEvent("message", mockEvent));
+    expect(dispatcher.dispatch).toHaveBeenCalledWith(mockEvent.data.type, mockEvent.data.payload);
+  });
+
+  it("does not dispatch events if message origin does not match fullscript-js origin and no custom domain", () => {
     let mockCallback;
     const addEventListener = jest.fn((_, callback) => {
       mockCallback = callback;
     });
     window.addEventListener = addEventListener;
     dispatcher.dispatch = jest.fn();
-    initializeMessageListener("us", dispatcher);
+    initializeMessageListener(mockFullscriptOptions, dispatcher);
 
     const mockEvent = {
       origin: "https://malicious.com",
@@ -65,7 +96,7 @@ describe("initializeMessageListener", () => {
       mockCallback = callback;
     });
     window.addEventListener = addEventListener;
-    initializeMessageListener("us", dispatcher);
+    initializeMessageListener(mockFullscriptOptions, dispatcher);
 
     const mockEvent = {
       origin: "https://us.fullscript.com",
