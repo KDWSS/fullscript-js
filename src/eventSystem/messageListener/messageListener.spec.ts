@@ -1,4 +1,4 @@
-import { FullscriptOptions } from "src/fullscript";
+import { FullscriptOptions } from "../../fullscript";
 import { createDispatcher, Dispatcher } from "../dispatcher";
 
 import { initializeMessageListener } from "./messageListener";
@@ -48,8 +48,8 @@ describe("initializeMessageListener", () => {
     let mockCallback;
     const optionsWithDomain = {
       ...mockFullscriptOptions,
-      domain: "http://test.fullscript.com"
-    }
+      domain: "http://test.fullscript.com",
+    };
     const addEventListener = jest.fn((_, callback) => {
       mockCallback = callback;
     });
