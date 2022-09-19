@@ -10,18 +10,18 @@ import { EventType, EventListenerCallback } from "./eventType";
 import { FeatureType, FeatureOptions, Feature } from "./featureType";
 import { getFeatureURL } from "./featureUtil";
 
-const getFeature = async <F extends FeatureType>(
+const getFeature = <F extends FeatureType>(
   featureType: F,
   featureOptions: FeatureOptions<F>,
   fullscriptOptions: FullscriptOptions,
   dispatcher: Dispatcher
-): Promise<Feature> => {
+): Feature => {
   let mountPoint: HTMLElement;
   const frameId = uuidv4();
-  const url = await getFeatureURL(featureType, featureOptions, fullscriptOptions, frameId);
 
   // TODO: If we can only mount a feature once, throw an error if attempting to mount a second time
-  const mount = (elementId: string) => {
+  const mount = async (elementId: string) => {
+    const url = await getFeatureURL(featureType, featureOptions, fullscriptOptions, frameId);
     mountPoint = document.getElementById(elementId);
     validateMountPoint(mountPoint);
     const iframe = createIframe(url);

@@ -18,7 +18,7 @@ const App = () => {
     console.log(payload);
   };
 
-  const mountTreatmentPlan = async () => {
+  const mountTreatmentPlan = () => {
     //     ################
     //  publicKey: fullscript-js-test-public-key
     //  patientId: a23a465f-20db-4602-a53b-3f283d90e381
@@ -30,12 +30,12 @@ const App = () => {
       env: "dev",
     });
 
-    const feature = await client.create("treatmentPlan", {
+    const feature = client.create("treatmentPlan", {
       patient: {
         id: "a23a465f-20db-4602-a53b-3f283d90e388",
         email: "mail@google.com",
       },
-      secretToken: "UesZ0WMCz4nv78AtjfDMCQFroqAI4LMstGIJhrIGPcOGwe5M",
+      secretToken: "xC4Q3lz38DXB7tucuO6VrdXvOrskNVOKkNc12lniH2teg74J",
     });
 
     feature.mount("treatment-plan-iframe");
