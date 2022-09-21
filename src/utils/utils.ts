@@ -29,15 +29,13 @@ const buildQueryString = async (params: Params): Promise<string> => {
   try {
     if (!patientInfo) throw new Error("patient info not provided");
 
-    const encryptedPatientInfo = await fetch(`${fsDomain}/api/embeddable/encrypt`, {
+    const tokenizedInfo = await fetch(`${fsDomain}/api/embeddable/tokenize`, {
       method: "POST",
       body: JSON.stringify({ data: patientInfo }),
       headers: { "Content-Type": "application/json" },
     }).then(res => res.json());
 
-    startingQueryString = `?encrypted_patient=${encodeURIComponent(
-      encryptedPatientInfo.encrypted_value
-    )}&`;
+    startingQueryString = `?encrypted_patient=${encodeURIComponent(tokenizedInfo.data_token)}&`;
   } catch (error) {
     startingQueryString = "?";
   }
