@@ -20,22 +20,21 @@ const App = () => {
 
   const mountTreatmentPlan = () => {
     //     ################
-    //  publicKey: fullscript-js-test-public-key
+    //  publicKey: fullscript-js-test-public-key-prac
     //  patientId: a23a465f-20db-4602-a53b-3f283d90e381
     //  secretToken: 41GePHjzCYe6eUg3CTrl9CTtDnZkK1uOyE0e6jIkvOjJCTJE
     // ################################################################
 
     const client = Fullscript({
-      publicKey: "fullscript-js-test-public-key",
+      publicKey: "fullscript-js-test-public-key-prac",
       env: "dev",
     });
 
     const feature = client.create("treatmentPlan", {
       patient: {
-        id: "a23a465f-20db-4602-a53b-3f283d90e388",
-        email: "mail@google.com",
+        // id: "a23a465f-20db-4602-a53b-3f283d90e381",
       },
-      secretToken: "xC4Q3lz38DXB7tucuO6VrdXvOrskNVOKkNc12lniH2teg74J",
+      secretToken: "qu4HsycRlJrIsjN7VWrd0LIlNoW2IjjXHv0rOHvcTPtuH9rJ",
     });
 
     feature.mount("treatment-plan-iframe");

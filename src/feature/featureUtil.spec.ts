@@ -7,6 +7,13 @@ describe("getFeatureUrl", () => {
   let mockFeatureOptions: FeatureOptions<"treatmentPlan">;
   let mockFullscriptOptions: FullscriptOptions;
   let mockFrameId: string;
+  const mockDataToken = "random+data_token";
+
+  window.fetch = jest.fn(() =>
+    Promise.resolve({
+      json: () => Promise.resolve({ data_token: mockDataToken }),
+    })
+  ) as jest.Mock;
 
   beforeEach(() => {
     mockFeatureOptions = {
@@ -24,8 +31,8 @@ describe("getFeatureUrl", () => {
     mockFrameId = "uuid";
   });
 
-  it("returns the proper url", () => {
-    const url = getFeatureURL(
+  it("returns the proper url", async () => {
+    const url = await getFeatureURL(
       "treatmentPlan",
       mockFeatureOptions,
       mockFullscriptOptions,
@@ -33,18 +40,20 @@ describe("getFeatureUrl", () => {
     );
 
     expect(url).toEqual(
-      "https://us-snd.fullscript.io/api/embeddable/session/treatment_plans/new?patient[id]=patientId&secret_token=secretToken&public_key=publicKey&frame_id=uuid&target_origin=http://localhost"
+      `https://us-snd.fullscript.io/api/embeddable/session/treatment_plans/new?encrypted_patient=${encodeURIComponent(
+        mockDataToken
+      )}&secret_token=secretToken&public_key=publicKey&frame_id=uuid&target_origin=http://localhost`
     );
   });
 
-  it("returns proper custom url if domain is present", () => {
+  it("returns proper custom url if domain is present", async () => {
     const customDomain = "https://staging.r.fullscript.io";
     mockFullscriptOptions = {
       ...mockFullscriptOptions,
       domain: customDomain,
     };
 
-    const url = getFeatureURL(
+    const url = await getFeatureURL(
       "treatmentPlan",
       mockFeatureOptions,
       mockFullscriptOptions,
@@ -52,7 +61,7 @@ describe("getFeatureUrl", () => {
     );
 
     expect(url).toEqual(
-      `${customDomain}/api/embeddable/session/treatment_plans/new?patient[id]=patientId&secret_token=secretToken&public_key=publicKey&frame_id=uuid&target_origin=http://localhost`
+      `${customDomain}/api/embeddable/session/treatment_plans/new?encrypted_patient=random%2Bdata_token&secret_token=secretToken&public_key=publicKey&frame_id=uuid&target_origin=http://localhost`
     );
   });
 });

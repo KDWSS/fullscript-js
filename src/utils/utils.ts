@@ -1,3 +1,4 @@
+/* eslint-disable prefer-const */
 import { FULLSCRIPT_DOMAINS } from "../fullscript";
 
 export type Params = { key: string; value: any } | any;
@@ -16,28 +17,28 @@ const snakeCase = (word: string): string => {
 };
 
 const buildQueryString = async (params: Params): Promise<string> => {
-  const { env, domain } = params.fullscriptOptions;
-
-  const fsDomain = domain ?? FULLSCRIPT_DOMAINS[env];
-
   if (!Object.keys(params) || Object.keys(params).length === 0) return "";
 
-  const { patient: patientInfo, ...exposedParams } = params;
+  let { patient: patientInfo, fullscriptOptions, ...exposedParams } = params;
 
-  let startingQueryString;
+  let startingQueryString = "?";
 
-  try {
-    if (!patientInfo) throw new Error("patient info not provided");
+  if (patientInfo) {
+    try {
+      const { env, domain } = fullscriptOptions;
+      const fsDomain = domain ?? FULLSCRIPT_DOMAINS[env];
 
-    const tokenizedInfo = await fetch(`${fsDomain}/api/embeddable/tokenize`, {
-      method: "POST",
-      body: JSON.stringify({ data: patientInfo }),
-      headers: { "Content-Type": "application/json" },
-    }).then(res => res.json());
+      const tokenizedInfo = await fetch(`${fsDomain}/api/embeddable/tokenize`, {
+        method: "POST",
+        body: JSON.stringify({ data: patientInfo }),
+        headers: { "Content-Type": "application/json" },
+      }).then(res => res.json());
 
-    startingQueryString = `?encrypted_patient=${encodeURIComponent(tokenizedInfo.data_token)}&`;
-  } catch (error) {
-    startingQueryString = "?";
+      startingQueryString += `encrypted_patient=${encodeURIComponent(tokenizedInfo.data_token)}&`;
+    } catch (error) {
+      startingQueryString = "?";
+      exposedParams = { patient: patientInfo, ...exposedParams };
+    }
   }
 
   return Object.keys(exposedParams).reduce((queryString, key) => {

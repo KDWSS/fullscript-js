@@ -72,7 +72,7 @@ describe("feature", () => {
 
   describe("mount", () => {
     it("calls the createIframe function when mount is called", () => {
-      return import("./feature").then(({ getFeature }) => {
+      return import("./feature").then(async ({ getFeature }) => {
         // hoisting issue with jest.mocks()
         const feature = getFeature(
           mockFeatureType,
@@ -80,14 +80,14 @@ describe("feature", () => {
           mockFullscriptOptions,
           dispatcher
         );
-        feature.mount("someid");
+        await feature.mount("someid");
 
         expect(mockCreateIframe).toBeCalled();
       });
     });
 
     it("appends child to the mountPoint when mount is called", () => {
-      return import("./feature").then(({ getFeature }) => {
+      return import("./feature").then(async ({ getFeature }) => {
         mockMountPoint.appendChild = jest.fn();
         const feature = getFeature(
           mockFeatureType,
@@ -95,7 +95,7 @@ describe("feature", () => {
           mockFullscriptOptions,
           dispatcher
         );
-        feature.mount("someid");
+        await feature.mount("someid");
 
         expect(mockMountPoint.appendChild).toBeCalled();
       });
@@ -105,7 +105,7 @@ describe("feature", () => {
   it("does not return an iframe and throws an error if the provided elementId is undefined", () => {
     document.getElementById = jest.fn(() => null);
 
-    return import("./feature").then(({ getFeature }) => {
+    return import("./feature").then(async ({ getFeature }) => {
       mockMountPoint.appendChild = jest.fn();
       const feature = getFeature(
         mockFeatureType,
@@ -116,11 +116,7 @@ describe("feature", () => {
 
       expect(mockMountPoint.appendChild).not.toBeCalled();
 
-      expect(() => {
-        feature.mount("blah");
-      }).toThrow(
-        "Could not find the mount point for the iframe. Please check that the elementId provided in .mount() matches the one that's used in the DOM"
-      );
+      await expect(feature.mount("blah")).rejects.toThrow();
     });
   });
 
