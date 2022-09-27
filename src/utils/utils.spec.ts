@@ -77,11 +77,11 @@ describe("utils", () => {
       const builtQueryString = await buildQueryString(mockParams);
 
       await expect(builtQueryString).toEqual(
-        `?encrypted_patient=${encodeURIComponent(mockDataToken)}&foo_bar=${mockParams.fooBar}`
+        `?data_token=${encodeURIComponent(mockDataToken)}&foo_bar=${mockParams.fooBar}`
       );
     });
 
-    it("passes patient info unencrypted if tokenization fails", async () => {
+    it("passes patient info exposed if tokenization fails", async () => {
       mockParams = {
         fooBar: "foobar",
         patient: { id: "patientId" },

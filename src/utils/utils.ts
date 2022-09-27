@@ -16,28 +16,52 @@ const snakeCase = (word: string): string => {
     .join("_");
 };
 
+const snakeCaseObjectKeys = (obj: any) => {
+  let key;
+  const keys = Object.keys(obj);
+  let n = keys.length;
+  const newObj = {};
+  while (n--) {
+    key = keys[n];
+    newObj[snakeCase(key)] = obj[key];
+  }
+
+  return newObj;
+};
+
+const tokenizeData = async (patientInfo, fullscriptOptions) => {
+  try {
+    const { env, domain } = fullscriptOptions;
+    const fsDomain = domain ?? FULLSCRIPT_DOMAINS[env];
+
+    const tokenizedInfo = await fetch(`${fsDomain}/api/embeddable/tokenize`, {
+      method: "POST",
+      body: JSON.stringify({ data: patientInfo }),
+      headers: { "Content-Type": "application/json" },
+    }).then(res => res.json());
+
+    if (typeof tokenizedInfo.data_token !== "string") throw new Error("Invalid response");
+
+    return tokenizedInfo.data_token;
+  } catch (error) {
+    return null;
+  }
+};
+
 const buildQueryString = async (params: Params): Promise<string> => {
   if (!Object.keys(params) || Object.keys(params).length === 0) return "";
 
   let { patient: patientInfo, fullscriptOptions, ...exposedParams } = params;
-
   let startingQueryString = "?";
 
   if (patientInfo) {
-    try {
-      const { env, domain } = fullscriptOptions;
-      const fsDomain = domain ?? FULLSCRIPT_DOMAINS[env];
+    const snakeCasePatient = snakeCaseObjectKeys(patientInfo);
+    const dataToken = await tokenizeData(snakeCasePatient, fullscriptOptions);
 
-      const tokenizedInfo = await fetch(`${fsDomain}/api/embeddable/tokenize`, {
-        method: "POST",
-        body: JSON.stringify({ data: patientInfo }),
-        headers: { "Content-Type": "application/json" },
-      }).then(res => res.json());
-
-      startingQueryString += `encrypted_patient=${encodeURIComponent(tokenizedInfo.data_token)}&`;
-    } catch (error) {
-      startingQueryString = "?";
-      exposedParams = { patient: patientInfo, ...exposedParams };
+    if (!dataToken) {
+      exposedParams = { patient: snakeCasePatient, ...exposedParams };
+    } else {
+      startingQueryString += `data_token=${encodeURIComponent(dataToken)}&`;
     }
   }
 
