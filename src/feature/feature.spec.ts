@@ -116,7 +116,9 @@ describe("feature", () => {
 
       expect(mockMountPoint.appendChild).not.toBeCalled();
 
-      await expect(feature.mount("blah")).rejects.toThrow();
+      await expect(feature.mount("blah")).rejects.toThrow(
+        "Could not find the mount point for the iframe. Please check that the elementId provided in .mount() matches the one that's used in the DOM"
+      );
     });
   });
 

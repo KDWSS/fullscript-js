@@ -61,7 +61,9 @@ describe("getFeatureUrl", () => {
     );
 
     expect(url).toEqual(
-      `${customDomain}/api/embeddable/session/treatment_plans/new?data_token=random%2Bdata_token&secret_token=secretToken&public_key=publicKey&frame_id=uuid&target_origin=http://localhost`
+      `${customDomain}/api/embeddable/session/treatment_plans/new?data_token=${encodeURIComponent(
+        mockDataToken
+      )}&secret_token=secretToken&public_key=publicKey&frame_id=uuid&target_origin=http://localhost`
     );
   });
 });
