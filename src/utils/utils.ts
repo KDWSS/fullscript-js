@@ -1,4 +1,3 @@
-/* eslint-disable prefer-const */
 import { FULLSCRIPT_DOMAINS } from "../fullscript";
 
 export type Params = { key: string; value: any } | any;
@@ -17,16 +16,13 @@ const snakeCase = (word: string): string => {
 };
 
 const snakeCaseObjectKeys = (obj: any) => {
-  let key;
-  const keys = Object.keys(obj);
-  let n = keys.length;
-  const newObj = {};
-  while (n--) {
-    key = keys[n];
-    newObj[snakeCase(key)] = obj[key];
-  }
-
-  return newObj;
+  return Object.keys(obj).reduce(
+    (result, key) => ({
+      ...result,
+      [snakeCase(key)]: obj[key],
+    }),
+    {}
+  );
 };
 
 const tokenizeData = async (patientInfo, fullscriptOptions) => {
@@ -51,18 +47,14 @@ const tokenizeData = async (patientInfo, fullscriptOptions) => {
 const buildQueryString = async (params: Params): Promise<string> => {
   if (!Object.keys(params) || Object.keys(params).length === 0) return "";
 
-  let { patient: patientInfo, fullscriptOptions, ...exposedParams } = params;
+  const { patient: patientInfo, fullscriptOptions, ...exposedParams } = params;
   let startingQueryString = "?";
 
   if (patientInfo) {
     const snakeCasePatient = snakeCaseObjectKeys(patientInfo);
     const dataToken = await tokenizeData(snakeCasePatient, fullscriptOptions);
 
-    if (!dataToken) {
-      exposedParams = { patient: snakeCasePatient, ...exposedParams };
-    } else {
-      startingQueryString += `data_token=${encodeURIComponent(dataToken)}&`;
-    }
+    startingQueryString += `data_token=${encodeURIComponent(dataToken)}&`;
   }
 
   return Object.keys(exposedParams).reduce((queryString, key) => {

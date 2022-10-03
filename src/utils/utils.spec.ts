@@ -81,7 +81,7 @@ describe("utils", () => {
       );
     });
 
-    it("passes patient info exposed if tokenization fails", async () => {
+    it("passes null data token if tokenization fails", async () => {
       mockParams = {
         fooBar: "foobar",
         patient: { id: "patientId" },
@@ -96,7 +96,7 @@ describe("utils", () => {
 
       const builtQueryString = await buildQueryString(mockParams);
 
-      await expect(builtQueryString).toEqual(`?patient[id]=patientId&foo_bar=${mockParams.fooBar}`);
+      await expect(builtQueryString).toEqual(`?data_token=null&foo_bar=${mockParams.fooBar}`);
     });
   });
 });
