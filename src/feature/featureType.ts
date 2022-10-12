@@ -24,7 +24,7 @@ type FeatureOptions<F extends FeatureType> = F extends "treatmentPlan"
   : Record<any, never>;
 
 interface Feature {
-  mount: (elementId: string) => void;
+  mount: (elementId: string) => Promise<void>;
   unmount: () => void;
   on: EventListenerFunction;
   off: EventListenerFunction;

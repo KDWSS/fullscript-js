@@ -18,10 +18,10 @@ const getFeature = <F extends FeatureType>(
 ): Feature => {
   let mountPoint: HTMLElement;
   const frameId = uuidv4();
-  const url = getFeatureURL(featureType, featureOptions, fullscriptOptions, frameId);
 
   // TODO: If we can only mount a feature once, throw an error if attempting to mount a second time
-  const mount = (elementId: string) => {
+  const mount = async (elementId: string) => {
+    const url = await getFeatureURL(featureType, featureOptions, fullscriptOptions, frameId);
     mountPoint = document.getElementById(elementId);
     validateMountPoint(mountPoint);
     const iframe = createIframe(url);
