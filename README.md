@@ -2,7 +2,6 @@
 
 Please visit [the fullscript.js docs](https://fullscript.dev/docs/how-to-guides/fullscript-js/what-is-fullscript-js) to get started.
 
-
 ## Demo
 
 In the project directory, we have two demo apps - React demo and UMD demo that you can experiment with.
