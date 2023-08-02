@@ -73,6 +73,21 @@
     "regenerator-runtime": "^0.13.5",
     "uuid": "^8.3.0"
   },
+  "browserslist": [
+    "defaults",
+    "last 1 version",
+    "> 0.2%",
+    "not dead",
+    "not IE > 0",
+    "ios_saf >= 10.3",
+    "safari >= 10.1",
+    "not op_mini all",
+    "not baidu <= 100",
+    "not kaiOS <= 100",
+    "not android <= 5.0",
+    "not and_uc <= 100",
+    "not and_qq <= 100"
+  ],
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
