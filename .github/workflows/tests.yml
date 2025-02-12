@@ -3,21 +3,21 @@ on: [push]
 jobs:
   PrettierJS:
     runs-on: ubuntu-latest
-    container: node:12-stretch
+    container: node:22-stretch
     steps:
       - uses: actions/checkout@v2
       - run: yarn install
       - run: yarn run prettier-diff
   Lint:
     runs-on: ubuntu-latest
-    container: node:12-stretch
+    container: node:22-stretch
     steps:
       - uses: actions/checkout@v2
       - run: yarn install
       - run: yarn run lint-diff
   Jest:
     runs-on: ubuntu-latest
-    container: node:12-stretch
+    container: node:22-stretch
     steps:
       - uses: actions/checkout@v2
       - run: yarn install
